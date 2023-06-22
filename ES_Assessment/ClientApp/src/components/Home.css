@@ -1,0 +1,33 @@
+﻿.home-container {
+    width: auto;
+    height: auto;
+    margin: 1%;
+    padding: 2%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+}
+
+.input-chart-container {
+    display: flex;
+}
+
+.input-form {
+    margin: 1%;
+}
+
+.input-title {
+    padding: 1% 5%;
+}
+
+.pie-chart {
+    flex: 1;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.table-container {
+
+}
