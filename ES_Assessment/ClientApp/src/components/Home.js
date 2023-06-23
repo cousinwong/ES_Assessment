@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import DonutChart from './DonutChart';
 import './Home.css';
 
@@ -10,18 +10,18 @@ const Home = () => {
             symbol: 'USD',
             name: 'John Doe',
             address: '123 Main St',
-            totalHolder: 5,
-            totalSupply: 2,
-            totalSupplyPercentage: 40,
+            totalHolder: 15,
+            totalSupply: 88,
+            totalSupplyPercentage: 40.00,
         },
         {
             rank: 2,
             symbol: 'EUR',
             name: 'Jane Smith',
             address: '456 Elm St',
-            totalHolder: 3,
-            totalSupply: 1,
-            totalSupplyPercentage: 33,
+            totalHolder: 8,
+            totalSupply: 564,
+            totalSupplyPercentage: 33.00,
         },
         {
             rank: 3,
@@ -29,35 +29,35 @@ const Home = () => {
             name: 'Michael Johnson',
             address: '789 Oak Ave',
             totalHolder: 4,
-            totalSupply: 2,
-            totalSupplyPercentage: 50,
+            totalSupply: 23,
+            totalSupplyPercentage: 50.00,
         },
         {
             rank: 4,
             symbol: 'JPY',
             name: 'Satoshi Nakamoto',
             address: '321 Pine Rd',
-            totalHolder: 2,
+            totalHolder: 333,
             totalSupply: 1,
-            totalSupplyPercentage: 50,
+            totalSupplyPercentage: 50.00,
         },
         {
             rank: 5,
             symbol: 'CAD',
             name: 'Emily Brown',
             address: '555 Maple Ln',
-            totalHolder: 6,
+            totalHolder: 23,
             totalSupply: 3,
-            totalSupplyPercentage: 50,
+            totalSupplyPercentage: 50.00,
         },
         {
             rank: 6,
             symbol: 'AUD',
             name: 'Oliver Wilson',
             address: '777 Cedar Blvd',
-            totalHolder: 4,
+            totalHolder: 55,
             totalSupply: 2,
-            totalSupplyPercentage: 50,
+            totalSupplyPercentage: 50.00,
         },
         {
             rank: 7,
@@ -65,8 +65,8 @@ const Home = () => {
             name: 'Sophia Davis',
             address: '222 Willow Dr',
             totalHolder: 3,
-            totalSupply: 1,
-            totalSupplyPercentage: 33,
+            totalSupply: 75,
+            totalSupplyPercentage: 33.00,
         },
         {
             rank: 8,
@@ -74,8 +74,8 @@ const Home = () => {
             name: 'Daniel Martinez',
             address: '888 Birch Ave',
             totalHolder: 5,
-            totalSupply: 2,
-            totalSupplyPercentage: 40,
+            totalSupply: 62,
+            totalSupplyPercentage: 40.00,
         },
         {
             rank: 9,
@@ -84,7 +84,7 @@ const Home = () => {
             address: '999 Elm St',
             totalHolder: 4,
             totalSupply: 2,
-            totalSupplyPercentage: 50,
+            totalSupplyPercentage: 50.00,
         },
         {
             rank: 10,
@@ -92,8 +92,8 @@ const Home = () => {
             name: 'Mia Anderson',
             address: '444 Oak Ave',
             totalHolder: 3,
-            totalSupply: 1,
-            totalSupplyPercentage: 33,
+            totalSupply: 68,
+            totalSupplyPercentage: 33.00,
         },
         {
             rank: 11,
@@ -101,8 +101,8 @@ const Home = () => {
             name: 'David Rodriguez',
             address: '111 Maple Ln',
             totalHolder: 5,
-            totalSupply: 2,
-            totalSupplyPercentage: 40,
+            totalSupply: 22,
+            totalSupplyPercentage: 40.00,
         },
         {
             rank: 12,
@@ -111,7 +111,7 @@ const Home = () => {
             address: '666 Pine Rd',
             totalHolder: 2,
             totalSupply: 1,
-            totalSupplyPercentage: 50,
+            totalSupplyPercentage: 50.00,
         },
         {
             rank: 13,
@@ -120,16 +120,16 @@ const Home = () => {
             address: '777 Cedar Blvd',
             totalHolder: 6,
             totalSupply: 3,
-            totalSupplyPercentage: 50,
+            totalSupplyPercentage: 50.00,
         },
         {
             rank: 14,
             symbol: 'EUR',
             name: 'Emma Lewis',
             address: '555 Willow Dr',
-            totalHolder: 4,
+            totalHolder: 10,
             totalSupply: 2,
-            totalSupplyPercentage: 50,
+            totalSupplyPercentage: 50.00,
         },
         {
             rank: 15,
@@ -138,9 +138,15 @@ const Home = () => {
             address: '888 Birch Ave',
             totalHolder: 3,
             totalSupply: 1,
-            totalSupplyPercentage: 33,
+            totalSupplyPercentage: 33.00,
         },
     ]);
+
+    const [currentName, setCurrentName] = useState("");
+    const [currentSymbol, setCurrentSymbol] = useState("");
+    const [currentContractAddress, setCurrentContractAddress] = useState("");
+    const [currentTotalSupply, setCurrentTotalSupply] = useState(0);
+    const [currentTotalHolders, setCurrentTotalHolders] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -153,14 +159,86 @@ const Home = () => {
     // Get the data for the current page
     const currentPageData = tableData.slice(startIndex, endIndex);
 
-    const getCurrentPageData = () => {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        return tableData.slice(startIndex, endIndex);
+    useEffect(() => {
+        sortData();
+    }, []);
+
+    const handleEdit = (data) => {
+        setCurrentName(data.name);
+        setCurrentSymbol(data.symbol);
+        setCurrentContractAddress(data.address);
+        setCurrentTotalSupply(data.totalSupply);
+        setCurrentTotalHolders(data.totalHolder);
     };
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
+    };
+
+    const handleReset = () => {
+        setCurrentName("");
+        setCurrentSymbol("");
+        setCurrentContractAddress("");
+        setCurrentTotalSupply(0);
+        setCurrentTotalHolders(0);
+    };
+
+    const handleSave = () => {
+        const newItem = {
+            rank: 0,
+            symbol: currentSymbol,
+            name: currentName,
+            address: currentContractAddress,
+            totalHolder: parseInt(currentTotalHolders, 10),
+            totalSupply: parseInt(currentTotalSupply, 10),
+            totalSupplyPercentage: 0.01
+        };
+
+        const existingItemIndex = tableData.findIndex(item => item.symbol === newItem.symbol);
+
+        if (existingItemIndex !== -1) {
+            const updatedData = [...tableData];
+            updatedData[existingItemIndex] = newItem;
+            setTableData(updatedData);
+        }
+        else {
+            const addData = [...tableData];
+            addData.push(newItem);
+            console.log(addData);
+            setTableData(addData);
+            console.log(tableData);
+        }
+
+        sortData();
+    };
+
+    const sortData = () => {
+        const allTotalSupply = tableData.reduce((accumulator, item) => {
+            return accumulator + item.totalSupply;
+        }, 0);
+        
+        tableData.forEach((item) => {
+            item.totalSupplyPercentage = parseFloat(((item.totalSupply / allTotalSupply) * 100).toFixed(5), 10);
+        });
+
+        const sortedData = [...tableData].sort((a, b) => b.totalSupply - a.totalSupply);
+
+        const updatedData = sortedData.map((item, index) => ({
+            ...item,
+            rank: index + 1,
+        }));
+
+        setTableData(updatedData);
+        console.log(tableData);
+    };
+
+    const handleKeyDown = (event) => {
+        const keyPressed = event.key;
+
+        // Allow only numbers and specific control keys
+        if (!/^[0-9\b]+$/.test(keyPressed)) {
+            event.preventDefault();
+        }
     };
 
     return (
@@ -172,29 +250,29 @@ const Home = () => {
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <div style={{ display: "flex" }}>
                                 <label className="input-title">Name</label>
-                                <input className="input-box" type="text" placeholder="Name" />
+                                <input className="input-box" type="text" placeholder="Name" value={currentName} onChange={(e) => setCurrentName(e.target.value)} />
                             </div>
                             <div style={{ display: "flex" }}>
                                 <label className="input-title">Symbol</label>
-                                <input className="input-box" type="text" placeholder="Symbol" />
+                                <input className="input-box" type="text" placeholder="Symbol" value={currentSymbol} onChange={(e) => setCurrentSymbol(e.target.value)} />
                             </div>
                             <div style={{ display: "flex" }}>
                                 <label className="input-title">Contract Address</label>
-                                <input className="input-box" type="text" placeholder="Contract Address" />
+                                <input className="input-box" type="text" placeholder="Contract Address" value={currentContractAddress} onChange={(e) => setCurrentContractAddress(e.target.value)} />
                             </div>
                             <div style={{ display: "flex" }}>
                                 <label className="input-title">Total Supply</label>
-                                <input className="input-box" type="text" placeholder="Total Supply" />
+                                <input className="input-box" type="text" placeholder="Total Supply" value={currentTotalSupply} onKeyDown={handleKeyDown} onChange={(e) => setCurrentTotalSupply(e.target.value)} />
                             </div>
                             <div style={{ display: "flex" }}>
                                 <label className="input-title">Total Holders</label>
-                                <input className="input-box" type="text" placeholder="Total Holders" />
+                                <input className="input-box" type="text" placeholder="Total Holders" value={currentTotalHolders} onKeyDown={handleKeyDown} onChange={(e) => setCurrentTotalHolders(e.target.value)} />
                             </div>
                             <div style={{ display: "flex" }}>
                                 <label className="input-title"></label>
                                 <div>
-                                    <button className="btn btn-primary" style={{ marginRight: "15px" }}>Save</button>
-                                    <button className="btn btn-secondary">Reset</button>
+                                    <button className="btn btn-primary" style={{ marginRight: "15px" }} onClick={handleSave}>Save</button>
+                                    <button className="btn btn-secondary" onClick={ handleReset }>Reset</button>
                                 </div>
                             </div>
                         </div>
@@ -232,24 +310,28 @@ const Home = () => {
                                             <td>{item.address}</td>
                                             <td>{item.totalHolder}</td>
                                             <td>{item.totalSupply}</td>
-                                            <td>{item.totalSupplyPercentage}</td>
-                                            <td>Edit</td>
+                                            <td>{item.totalSupplyPercentage}%</td>
+                                            <td><button type="button" className="btn btn-link" onClick={() => handleEdit(item)}>Edit</button></td>
                                         </tr>
                                     )}
                                 </tbody>
                             </table>
                         </div>
-                        <div>
+                        <div style={{ alignSelf: "center" }}>
                             <nav aria-label="Page navigation example">
-                                <ul className="pagination justify-content-center">
-                                    <li className="page-item disabled">
-                                        <a className="page-link">Previous</a>
+                                <ul className="pagination">
+                                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                        <button className="page-link" href="#" onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
                                     </li>
-                                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#">Next</a>
+                                    {Array.from(Array(totalPages).keys()).map((page) => (
+                                        <li key={page + 1} className={`page-item ${currentPage === page + 1 ? 'active' : ''}`}>
+                                            <button className="page-link" href="#" onClick={() => handlePageChange(page + 1)}>
+                                                {page + 1}
+                                            </button>
+                                        </li>
+                                    ))}
+                                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                                        <button className="page-link" href="#" onClick={() => handlePageChange(currentPage + 1)}>Next</button>
                                     </li>
                                 </ul>
                             </nav>
