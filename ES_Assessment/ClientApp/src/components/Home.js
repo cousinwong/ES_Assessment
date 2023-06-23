@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import DonutChart from './DonutChart';
 import './Home.css';
 
@@ -13,6 +14,7 @@ const Home = () => {
             totalHolder: 15,
             totalSupply: 88,
             totalSupplyPercentage: 40.00,
+            price: 0.00,
         },
         {
             rank: 2,
@@ -22,6 +24,7 @@ const Home = () => {
             totalHolder: 8,
             totalSupply: 564,
             totalSupplyPercentage: 33.00,
+            price: 0.00,
         },
         {
             rank: 3,
@@ -31,6 +34,7 @@ const Home = () => {
             totalHolder: 4,
             totalSupply: 23,
             totalSupplyPercentage: 50.00,
+            price: 0.00,
         },
         {
             rank: 4,
@@ -40,6 +44,7 @@ const Home = () => {
             totalHolder: 333,
             totalSupply: 1,
             totalSupplyPercentage: 50.00,
+            price: 0.00,
         },
         {
             rank: 5,
@@ -49,6 +54,7 @@ const Home = () => {
             totalHolder: 23,
             totalSupply: 3,
             totalSupplyPercentage: 50.00,
+            price: 0.00,
         },
         {
             rank: 6,
@@ -58,6 +64,7 @@ const Home = () => {
             totalHolder: 55,
             totalSupply: 2,
             totalSupplyPercentage: 50.00,
+            price: 0.00,
         },
         {
             rank: 7,
@@ -67,6 +74,7 @@ const Home = () => {
             totalHolder: 3,
             totalSupply: 75,
             totalSupplyPercentage: 33.00,
+            price: 0.00,
         },
         {
             rank: 8,
@@ -76,6 +84,7 @@ const Home = () => {
             totalHolder: 5,
             totalSupply: 62,
             totalSupplyPercentage: 40.00,
+            price: 0.00,
         },
         {
             rank: 9,
@@ -85,6 +94,7 @@ const Home = () => {
             totalHolder: 4,
             totalSupply: 2,
             totalSupplyPercentage: 50.00,
+            price: 0.00,
         },
         {
             rank: 10,
@@ -94,6 +104,7 @@ const Home = () => {
             totalHolder: 3,
             totalSupply: 68,
             totalSupplyPercentage: 33.00,
+            price: 0.00,
         },
         {
             rank: 11,
@@ -103,6 +114,7 @@ const Home = () => {
             totalHolder: 5,
             totalSupply: 22,
             totalSupplyPercentage: 40.00,
+            price: 0.00,
         },
         {
             rank: 12,
@@ -112,6 +124,7 @@ const Home = () => {
             totalHolder: 2,
             totalSupply: 1,
             totalSupplyPercentage: 50.00,
+            price: 0.00,
         },
         {
             rank: 13,
@@ -121,6 +134,7 @@ const Home = () => {
             totalHolder: 6,
             totalSupply: 3,
             totalSupplyPercentage: 50.00,
+            price: 0.00,
         },
         {
             rank: 14,
@@ -130,6 +144,7 @@ const Home = () => {
             totalHolder: 10,
             totalSupply: 2,
             totalSupplyPercentage: 50.00,
+            price: 0.00,
         },
         {
             rank: 15,
@@ -139,6 +154,7 @@ const Home = () => {
             totalHolder: 3,
             totalSupply: 1,
             totalSupplyPercentage: 33.00,
+            price: 0.00,
         },
     ]);
 
@@ -191,7 +207,8 @@ const Home = () => {
             address: currentContractAddress,
             totalHolder: parseInt(currentTotalHolders, 10),
             totalSupply: parseInt(currentTotalSupply, 10),
-            totalSupplyPercentage: 0.01
+            totalSupplyPercentage: 0.01,
+            price: 0.00,
         };
 
         const existingItemIndex = tableData.findIndex(item => item.symbol === newItem.symbol);
@@ -305,7 +322,7 @@ const Home = () => {
                                     {currentPageData.map(item =>
                                         <tr key={item.rank}>
                                             <td>{item.rank}</td>
-                                            <td>{item.symbol}</td>
+                                            <td><Link to={`/detail`} state={{ state: item }} key={item.rank}>{item.symbol}</Link></td>
                                             <td>{item.name}</td>
                                             <td>{item.address}</td>
                                             <td>{item.totalHolder}</td>

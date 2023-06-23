@@ -1,0 +1,33 @@
+﻿.detail-container {
+    width: auto;
+    height: auto;
+    margin: 1%;
+    padding: 2%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+}
+
+.input-title {
+    padding: 1% 5%;
+    text-wrap: nowrap;
+    min-width: 200px;
+}
+
+.input-box {
+    margin-bottom: 10px;
+    padding: 3px 7px;
+}
+
+.pie-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    font-weight: bold;
+    margin: 0 5%;
+    display: flex;
+    align-self: center;
+}
