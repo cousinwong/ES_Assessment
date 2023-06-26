@@ -5,7 +5,9 @@ import './Home.css';
 
 const Home = () => {
     Home.displayName = Home.name;
-    const [tableData, setTableData] = useState([
+
+    // The table data.
+    var [tableData, setTableData] = useState([
         {
             rank: 1,
             symbol: 'USD',
@@ -164,7 +166,7 @@ const Home = () => {
     const [currentTotalSupply, setCurrentTotalSupply] = useState(0);
     const [currentTotalHolders, setCurrentTotalHolders] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+    const itemsPerPage = 10; // Set the max item per page.
 
     const totalPages = Math.ceil(tableData.length / itemsPerPage);
 
@@ -175,9 +177,18 @@ const Home = () => {
     // Get the data for the current page
     const currentPageData = tableData.slice(startIndex, endIndex);
 
+    // Get the data from API (incompleted) and sort the table on page load.
     useEffect(() => {
+        //getData();
         sortData();
     }, []);
+
+    async function getData() {
+        const response = await fetch('http://localhost:8080/getCoinList');
+        const data = await response.json();
+        console.log(data);
+        setTableData(data);
+    }
 
     const handleEdit = (data) => {
         setCurrentName(data.name);
@@ -191,7 +202,8 @@ const Home = () => {
         setCurrentPage(page);
     };
 
-    const handleReset = () => {
+    const handleReset = (e) => {
+        e.preventDefault();
         setCurrentName("");
         setCurrentSymbol("");
         setCurrentContractAddress("");
@@ -199,7 +211,9 @@ const Home = () => {
         setCurrentTotalHolders(0);
     };
 
-    const handleSave = () => {
+    // WIP: update table data state.
+    const handleSave = (e) => {
+        e.preventDefault();
         const newItem = {
             rank: 0,
             symbol: currentSymbol,
@@ -219,16 +233,13 @@ const Home = () => {
             setTableData(updatedData);
         }
         else {
-            const addData = [...tableData];
-            addData.push(newItem);
-            console.log(addData);
-            setTableData(addData);
-            console.log(tableData);
+            setTableData(oldData => [...oldData, newItem]);
         }
 
         sortData();
     };
 
+    // Sort the table by Total Supply.
     const sortData = () => {
         const allTotalSupply = tableData.reduce((accumulator, item) => {
             return accumulator + item.totalSupply;
@@ -246,9 +257,9 @@ const Home = () => {
         }));
 
         setTableData(updatedData);
-        console.log(tableData);
     };
 
+    // Ensure only number input for Total Supply and Total Holder.
     const handleKeyDown = (event) => {
         const keyPressed = event.key;
 
@@ -263,6 +274,7 @@ const Home = () => {
             <div className="home-container">
                 <div className="input-chart-container">
                     <form className="input-form">
+                    {/*Add/Save data*/}
                         <p className="title">Save / Update Token</p>
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <div style={{ display: "flex" }}>
@@ -288,13 +300,14 @@ const Home = () => {
                             <div style={{ display: "flex" }}>
                                 <label className="input-title"></label>
                                 <div>
-                                    <button className="btn btn-primary" style={{ marginRight: "15px" }} onClick={handleSave}>Save</button>
-                                    <button className="btn btn-secondary" onClick={ handleReset }>Reset</button>
+                                    <button className="btn btn-primary" style={{ marginRight: "15px" }} onClick={(e) => handleSave(e)}>Save</button>
+                                    <button className="btn btn-secondary" onClick={ (e) => handleReset(e) }>Reset</button>
                                 </div>
                             </div>
                         </div>
                     </form>
                     <div style={{ flexGrow: 1 }} />
+                    {/*Chart Display*/}
                     <div className="pie-chart">
                         <p className="title">Token Statistics by Total Supply</p>
                         <DonutChart />
@@ -303,6 +316,7 @@ const Home = () => {
                 </div>
                 <hr />
                 <div className="table-container">
+                    {/*Table Display*/}
                     <div style={{ display: "flex", flexDirection: "column" }}>
                         <div>
                             <table className="table">
@@ -334,6 +348,8 @@ const Home = () => {
                                 </tbody>
                             </table>
                         </div>
+
+                        {/*Pagination Control*/}
                         <div style={{ alignSelf: "center" }}>
                             <nav aria-label="Page navigation example">
                                 <ul className="pagination">
